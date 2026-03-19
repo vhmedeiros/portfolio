@@ -1,0 +1,60 @@
+{% if projects %}
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for project in projects %}
+    <a href="{% url 'project_detail' project.slug %}"
+       class="group card-glow rounded-2xl border border-surface-700 bg-surface-800/60 overflow-hidden block">
+
+      <!-- Thumbnail -->
+      {% if project.thumbnail %}
+        <div class="aspect-video overflow-hidden">
+          <img src="{{ project.thumbnail.url }}" alt="{{ project.title }}"
+               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+        </div>
+      {% else %}
+        <div class="aspect-video bg-gradient-to-br from-surface-700 to-surface-800 flex items-center justify-center">
+          <span class="text-4xl font-mono text-surface-600">&lt;/&gt;</span>
+        </div>
+      {% endif %}
+
+      <div class="p-5">
+        <!-- Tags -->
+        <div class="flex flex-wrap gap-2 mb-3">
+          {% for tag in project.tags.all %}
+            <span class="tag-pill px-2 py-0.5 rounded-full"
+                  style="background-color: {{ tag.color }}22; border: 1px solid {{ tag.color }}55; color: {{ tag.color }};">
+              {{ tag.name }}
+            </span>
+          {% endfor %}
+        </div>
+
+        <h3 class="font-display font-semibold text-slate-100 mb-2 group-hover:text-brand-400 transition-colors">
+          {{ project.title }}
+        </h3>
+        <p class="text-slate-400 text-sm leading-relaxed line-clamp-2">
+          {{ project.short_description }}
+        </p>
+
+        <div class="mt-4 flex items-center text-brand-400 text-sm font-medium">
+          Ver projeto
+          <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+
+{% else %}
+  <div class="text-center py-24 text-slate-500">
+    <p class="text-5xl mb-4">🔍</p>
+    <p class="text-lg">Nenhum projeto encontrado com esse filtro.</p>
+    <button
+      hx-get="{% url 'project_list' %}"
+      hx-target="#project-grid"
+      hx-push-url="{% url 'project_list' %}"
+      class="mt-4 text-brand-400 hover:text-brand-300 transition-colors text-sm">
+      Ver todos os projetos →
+    </button>
+  </div>
+{% endif %}

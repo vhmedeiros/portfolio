@@ -1,0 +1,151 @@
+{% extends "core/base.html" %}
+
+{% block title %}Portfólio — Full Stack & Automação{% endblock %}
+
+{% block content %}
+
+<!-- ═══════════════════════════════════════════ HERO ══ -->
+<section class="hero-bg dot-grid min-h-[90vh] flex items-center relative overflow-hidden">
+
+  <!-- Orb decorativo -->
+  <div class="absolute top-1/3 right-0 w-96 h-96 rounded-full bg-brand-500/5 blur-3xl pointer-events-none"></div>
+  <div class="absolute bottom-0 left-1/4 w-64 h-64 rounded-full bg-indigo-500/5 blur-3xl pointer-events-none"></div>
+
+  <div class="max-w-6xl mx-auto px-6 py-24 grid md:grid-cols-2 gap-16 items-center">
+
+    <!-- Texto -->
+    <div>
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-brand-500/30 bg-brand-500/10 text-brand-400 text-xs font-mono mb-6"
+           data-aos="fade-down">
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse"></span>
+        disponível para projetos
+      </div>
+
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-slate-100 leading-tight tracking-tight mb-6"
+          data-aos="fade-up" data-aos-delay="100">
+        Construo soluções.<br/>
+        <span class="text-brand-400">Automatizo</span> o resto.
+      </h1>
+
+      <p class="text-slate-400 text-lg leading-relaxed mb-8 max-w-lg"
+         data-aos="fade-up" data-aos-delay="200">
+        Desenvolvedor Full Stack especializado em automações com <strong class="text-slate-300">Python</strong>,
+        <strong class="text-slate-300">n8n</strong> e integrações de APIs. Transformo processos manuais em pipelines robustos.
+      </p>
+
+      <div class="flex flex-wrap gap-4" data-aos="fade-up" data-aos-delay="300">
+        <a href="{% url 'project_list' %}"
+           class="px-6 py-3 rounded-lg bg-brand-500 hover:bg-brand-400 text-white font-medium transition-colors">
+          Ver projetos →
+        </a>
+        <a href="{% url 'contact' %}"
+           class="px-6 py-3 rounded-lg border border-surface-600 hover:border-brand-500/50 text-slate-300 hover:text-slate-100 transition-colors">
+          Entrar em contato
+        </a>
+      </div>
+    </div>
+
+    <!-- Card de stack -->
+    <div class="hidden md:block" data-aos="fade-left" data-aos-delay="200">
+      <div class="rounded-2xl border border-surface-700 bg-surface-800/60 backdrop-blur-sm p-6 font-mono text-sm">
+        <div class="flex items-center gap-2 mb-4">
+          <span class="w-3 h-3 rounded-full bg-red-500/70"></span>
+          <span class="w-3 h-3 rounded-full bg-yellow-500/70"></span>
+          <span class="w-3 h-3 rounded-full bg-green-500/70"></span>
+          <span class="ml-2 text-slate-500 text-xs">stack.py</span>
+        </div>
+        <pre class="text-slate-300 leading-relaxed overflow-x-auto"><code><span class="text-purple-400">stack</span> = {
+  <span class="text-green-400">"backend"</span>:     [<span class="text-yellow-300">"Python"</span>, <span class="text-yellow-300">"Django"</span>, <span class="text-yellow-300">"FastAPI"</span>],
+  <span class="text-green-400">"frontend"</span>:    [<span class="text-yellow-300">"HTMX"</span>, <span class="text-yellow-300">"Tailwind"</span>, <span class="text-yellow-300">"JS"</span>],
+  <span class="text-green-400">"automação"</span>:   [<span class="text-yellow-300">"n8n"</span>, <span class="text-yellow-300">"Selenium"</span>, <span class="text-yellow-300">"APIs"</span>],
+  <span class="text-green-400">"infra"</span>:       [<span class="text-yellow-300">"Docker"</span>, <span class="text-yellow-300">"Nginx"</span>, <span class="text-yellow-300">"Oracle Cloud"</span>],
+  <span class="text-green-400">"sistemas"</span>:    [<span class="text-yellow-300">"Rust"</span>, <span class="text-yellow-300">"Linux"</span>],
+}
+
+<span class="text-slate-500"># status atual</span>
+<span class="text-purple-400">disponivel</span> = <span class="text-brand-400">True</span></code></pre>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ FEATURED PROJECTS ══ -->
+{% if featured_projects %}
+<section class="max-w-6xl mx-auto px-6 py-20">
+
+  <div class="flex items-end justify-between mb-12" data-aos="fade-up">
+    <div>
+      <p class="text-brand-400 font-mono text-sm mb-2">// projetos em destaque</p>
+      <h2 class="text-3xl font-display font-bold text-slate-100">Trabalhos recentes</h2>
+    </div>
+    <a href="{% url 'project_list' %}" class="hidden md:inline text-sm text-slate-400 hover:text-brand-400 transition-colors">
+      Ver todos →
+    </a>
+  </div>
+
+  <div class="grid md:grid-cols-3 gap-6">
+    {% for project in featured_projects %}
+    <a href="{% url 'project_detail' project.slug %}"
+       class="group card-glow rounded-2xl border border-surface-700 bg-surface-800/60 overflow-hidden block"
+       data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+
+      <!-- Thumbnail -->
+      {% if project.thumbnail %}
+        <div class="aspect-video overflow-hidden">
+          <img src="{{ project.thumbnail.url }}" alt="{{ project.title }}"
+               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+        </div>
+      {% else %}
+        <div class="aspect-video bg-gradient-to-br from-surface-700 to-surface-800 flex items-center justify-center">
+          <span class="text-4xl font-mono text-surface-600">&lt;/&gt;</span>
+        </div>
+      {% endif %}
+
+      <div class="p-5">
+        <!-- Tags -->
+        <div class="flex flex-wrap gap-2 mb-3">
+          {% for tag in project.tags.all %}
+            <span class="tag-pill px-2 py-0.5 rounded-full text-white/80"
+                  style="background-color: {{ tag.color }}22; border: 1px solid {{ tag.color }}55; color: {{ tag.color }};">
+              {{ tag.name }}
+            </span>
+          {% endfor %}
+        </div>
+
+        <h3 class="font-display font-semibold text-slate-100 mb-2 group-hover:text-brand-400 transition-colors">
+          {{ project.title }}
+        </h3>
+        <p class="text-slate-400 text-sm leading-relaxed line-clamp-2">
+          {{ project.short_description }}
+        </p>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+
+  <div class="text-center mt-8 md:hidden" data-aos="fade-up">
+    <a href="{% url 'project_list' %}" class="text-sm text-brand-400 hover:text-brand-300 transition-colors">
+      Ver todos os projetos →
+    </a>
+  </div>
+
+</section>
+{% endif %}
+
+<!-- ═══════════════════════════════════════════ CTA FINAL ══ -->
+<section class="max-w-6xl mx-auto px-6 pb-20">
+  <div class="rounded-3xl border border-brand-500/20 bg-gradient-to-br from-brand-500/10 to-indigo-500/5 p-12 text-center"
+       data-aos="fade-up">
+    <h2 class="text-3xl font-display font-bold text-slate-100 mb-4">Tem um projeto em mente?</h2>
+    <p class="text-slate-400 max-w-md mx-auto mb-8">
+      Vamos conversar sobre como posso ajudar a construir ou automatizar sua solução.
+    </p>
+    <a href="{% url 'contact' %}"
+       class="inline-flex items-center gap-2 px-8 py-3 rounded-xl bg-brand-500 hover:bg-brand-400 text-white font-medium transition-colors">
+      Entrar em contato
+    </a>
+  </div>
+</section>
+
+{% endblock %}

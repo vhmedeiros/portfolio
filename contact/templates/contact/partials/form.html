@@ -1,0 +1,61 @@
+{% if success %}
+  <!-- Estado de sucesso -->
+  <div class="rounded-2xl border border-green-500/30 bg-green-500/10 p-10 text-center">
+    <div class="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-4">
+      <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+      </svg>
+    </div>
+    <h3 class="text-xl font-display font-semibold text-slate-100 mb-2">Mensagem enviada!</h3>
+    <p class="text-slate-400 text-sm mb-6">Obrigado pelo contato. Responderei em breve.</p>
+    <button
+      hx-get="{% url 'contact' %}"
+      hx-target="#contact-form-wrapper"
+      hx-swap="innerHTML"
+      class="text-sm text-brand-400 hover:text-brand-300 transition-colors">
+      Enviar outra mensagem →
+    </button>
+  </div>
+
+{% else %}
+  <!-- Formulário -->
+  <form
+    hx-post="{% url 'contact' %}"
+    hx-target="#contact-form-wrapper"
+    hx-swap="innerHTML"
+    hx-indicator="#htmx-indicator"
+    class="rounded-2xl border border-surface-700 bg-surface-800/60 p-8 space-y-5">
+
+    {% csrf_token %}
+
+    {% for field in form %}
+    <div>
+      <label for="{{ field.id_for_label }}" class="block text-xs font-mono text-slate-400 mb-1.5 uppercase tracking-wider">
+        {{ field.label }}
+      </label>
+      <div class="[&>input]:w-full [&>input]:rounded-xl [&>input]:border [&>input]:border-surface-600
+                  [&>input]:bg-surface-700/50 [&>input]:px-4 [&>input]:py-2.5
+                  [&>input]:text-slate-100 [&>input]:text-sm [&>input]:outline-none
+                  [&>input]:placeholder:text-slate-600
+                  [&>input:focus]:border-brand-500/60 [&>input:focus]:ring-2 [&>input:focus]:ring-brand-500/20
+                  [&>input]:transition-colors
+                  [&>textarea]:w-full [&>textarea]:rounded-xl [&>textarea]:border [&>textarea]:border-surface-600
+                  [&>textarea]:bg-surface-700/50 [&>textarea]:px-4 [&>textarea]:py-2.5
+                  [&>textarea]:text-slate-100 [&>textarea]:text-sm [&>textarea]:outline-none
+                  [&>textarea]:placeholder:text-slate-600 [&>textarea]:resize-none
+                  [&>textarea:focus]:border-brand-500/60 [&>textarea:focus]:ring-2 [&>textarea:focus]:ring-brand-500/20
+                  [&>textarea]:transition-colors">
+        {{ field }}
+      </div>
+      {% if field.errors %}
+        <p class="mt-1 text-xs text-red-400">{{ field.errors|join:", " }}</p>
+      {% endif %}
+    </div>
+    {% endfor %}
+
+    <button type="submit"
+            class="w-full py-3 rounded-xl bg-brand-500 hover:bg-brand-400 text-white font-medium text-sm transition-colors mt-2">
+      Enviar mensagem
+    </button>
+  </form>
+{% endif %}

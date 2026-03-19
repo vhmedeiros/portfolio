@@ -1,0 +1,53 @@
+{% extends "core/base.html" %}
+
+{% block title %}Projetos — Portfólio{% endblock %}
+
+{% block content %}
+<section class="max-w-6xl mx-auto px-6 py-16">
+
+  <!-- Header -->
+  <div class="mb-12" data-aos="fade-up">
+    <p class="text-brand-400 font-mono text-sm mb-2">// todos os projetos</p>
+    <h1 class="text-4xl font-display font-bold text-slate-100">Hub de Projetos</h1>
+    <p class="text-slate-400 mt-3 max-w-xl">
+      Uma coleção de soluções reais — automações, sistemas web, integrações e ferramentas construídas para resolver problemas concretos.
+    </p>
+  </div>
+
+  <!-- Filtros de tag via HTMX -->
+  <div class="flex flex-wrap gap-2 mb-10" data-aos="fade-up" data-aos-delay="100">
+    <button
+      hx-get="{% url 'project_list' %}"
+      hx-target="#project-grid"
+      hx-push-url="{% url 'project_list' %}"
+      hx-indicator="#htmx-indicator"
+      class="tag-pill px-4 py-1.5 rounded-full border transition-colors cursor-pointer
+             {% if not active_tag %}border-brand-500 bg-brand-500/20 text-brand-300{% else %}border-surface-600 text-slate-400 hover:border-brand-500/50 hover:text-slate-200{% endif %}">
+      Todos
+    </button>
+
+    {% for tag in tags %}
+    <button
+      hx-get="{% url 'project_list' %}?tag={{ tag.slug }}"
+      hx-target="#project-grid"
+      hx-push-url="{% url 'project_list' %}?tag={{ tag.slug }}"
+      hx-indicator="#htmx-indicator"
+      class="tag-pill px-4 py-1.5 rounded-full border transition-colors cursor-pointer
+             {% if active_tag == tag.slug %}text-white{% else %}text-slate-400 hover:text-slate-200{% endif %}"
+      style="
+        border-color: {{ tag.color }}{% if active_tag == tag.slug %}99{% else %}33{% endif %};
+        background-color: {{ tag.color }}{% if active_tag == tag.slug %}22{% else %}00{% endif %};
+        {% if active_tag == tag.slug %}color: {{ tag.color }};{% endif %}
+      ">
+      {{ tag.name }}
+    </button>
+    {% endfor %}
+  </div>
+
+  <!-- Grid de projetos (alvo do HTMX) -->
+  <div id="project-grid">
+    {% include "projects/partials/project_grid.html" %}
+  </div>
+
+</section>
+{% endblock %}
