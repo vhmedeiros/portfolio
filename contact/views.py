@@ -13,7 +13,6 @@ def contact(request):
         if form.is_valid():
             msg = form.save()
 
-            # Envia e-mail de notificação
             try:
                 send_mail(
                     subject=f"[Portfólio] {msg.subject}",
@@ -28,7 +27,7 @@ def contact(request):
                     fail_silently=True,
                 )
             except Exception:
-                pass  # Não quebra o site se o e-mail falhar
+                pass
 
             success = True
             form = ContactForm()

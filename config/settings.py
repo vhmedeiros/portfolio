@@ -83,12 +83,18 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# E-mail via Zoho SMTP
+# E-mail via Gmail SMTP
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.zoho.com"
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_HOST_USER")
 CONTACT_EMAIL = os.environ.get("EMAIL_HOST_USER")
+
+# Proxy HTTPS (Nginx)
+CSRF_TRUSTED_ORIGINS = [
+    "https://vhmedeiros.dev.br",
+    "https://www.vhmedeiros.dev.br",
+]
