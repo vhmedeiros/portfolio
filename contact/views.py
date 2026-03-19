@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.core.mail import send_mail
+from django.conf import settings
 from .forms import ContactForm
 
 
@@ -9,11 +11,28 @@ def contact(request):
     if request.method == "POST":
         form = ContactForm(request.POST)
         if form.is_valid():
-            form.save()
-            success = True
-            form = ContactForm()  # limpa o form após envio
+            msg = form.save()
 
-        # HTMX: retorna apenas o fragmento do formulário
+            # Envia e-mail de notificação
+            try:
+                send_mail(
+                    subject=f"[Portfólio] {msg.subject}",
+                    message=(
+                        f"Nome: {msg.name}\n"
+                        f"E-mail: {msg.email}\n"
+                        f"Assunto: {msg.subject}\n\n"
+                        f"Mensagem:\n{msg.message}"
+                    ),
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[settings.CONTACT_EMAIL],
+                    fail_silently=True,
+                )
+            except Exception:
+                pass  # Não quebra o site se o e-mail falhar
+
+            success = True
+            form = ContactForm()
+
         if request.htmx:
             return render(request, "contact/partials/form.html", {
                 "form": form,
