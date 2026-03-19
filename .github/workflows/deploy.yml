@@ -1,0 +1,45 @@
+name: Deploy — vhmedeiros.dev.br
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy na Oracle Cloud
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar chave SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy na VM
+        run: |
+          ssh -i ~/.ssh/deploy_key ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            set -e
+
+            echo "📂 Entrando na pasta do projeto..."
+            cd ${{ secrets.DEPLOY_PATH }}
+
+            echo "📥 Atualizando código..."
+            git pull origin main
+
+            echo "🐳 Rebuilding containers..."
+            docker compose up --build -d
+
+            echo "🗄️ Rodando migrations..."
+            docker exec portfolio_web python manage.py migrate --noinput
+
+            echo "📦 Coletando arquivos estáticos..."
+            docker exec portfolio_web python manage.py collectstatic --noinput
+
+            echo "✅ Deploy concluído!"
+          EOF
