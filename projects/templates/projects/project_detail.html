@@ -1,4 +1,5 @@
 {% extends "core/base.html" %}
+{% load markdown_tags %}
 
 {% block title %}{{ project.title }} — Portfólio{% endblock %}
 {% block meta_description %}{{ project.short_description }}{% endblock %}
@@ -68,6 +69,30 @@
   </div>
   {% endif %}
 
+  {% if project.images.all %}
+  <div class="mb-12">
+    <h2 class="text-2xl font-display font-semibold text-slate-100 mb-6" data-aos="fade-up">
+      <span class="text-brand-400 font-mono text-lg mr-2">#</span>Telas do Sistema
+    </h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      {% for img in project.images.all %}
+        <div class="rounded-xl overflow-hidden border border-surface-700 bg-surface-800/60 group" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+          <div class="overflow-hidden">
+            <img src="{{ img.image.url }}" alt="{{ img.caption|default:project.title }}" 
+     class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500 cursor-zoom-in" 
+     onclick="openLightbox(this.src)" />
+          </div>
+          {% if img.caption %}
+            <div class="p-3 border-t border-surface-700 text-sm text-slate-400 text-center font-mono">
+              {{ img.caption }}
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
   <!-- Descrição completa -->
   <div class="prose prose-invert prose-slate max-w-none
               prose-headings:font-display prose-headings:font-semibold
@@ -75,7 +100,7 @@
               prose-code:font-mono prose-code:text-brand-300 prose-code:bg-surface-700 prose-code:px-1 prose-code:rounded
               prose-pre:bg-surface-800 prose-pre:border prose-pre:border-surface-700"
        data-aos="fade-up">
-    {{ project.full_description|linebreaks }}
+    {{ project.full_description|render_markdown }}
   </div>
 
   <!-- Voltar -->
@@ -89,4 +114,40 @@
   </div>
 
 </article>
+
+<div id="lightbox" class="fixed inset-0 z-[100] bg-surface-900/95 backdrop-blur-sm hidden flex-col items-center justify-center p-4 opacity-0 transition-opacity duration-300" onclick="closeLightbox()">
+    <button class="absolute top-6 right-6 text-slate-400 hover:text-white transition-colors">
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+    <img id="lightbox-img" src="" class="max-w-full max-h-[85vh] rounded-lg shadow-2xl scale-95 transition-transform duration-300" onclick="event.stopPropagation()">
+  </div>
+
+  <script>
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+
+    function openLightbox(imageSrc) {
+      lightboxImg.src = imageSrc;
+      lightbox.classList.remove('hidden');
+      lightbox.classList.add('flex');
+      // Pequeno delay para a transição de opacidade funcionar no Tailwind
+      setTimeout(() => {
+        lightbox.classList.remove('opacity-0');
+        lightboxImg.classList.remove('scale-95');
+      }, 10);
+      document.body.style.overflow = 'hidden'; // Impede rolagem do fundo
+    }
+
+    function closeLightbox() {
+      lightbox.classList.add('opacity-0');
+      lightboxImg.classList.add('scale-95');
+      setTimeout(() => {
+        lightbox.classList.add('hidden');
+        lightbox.classList.remove('flex');
+        lightboxImg.src = '';
+      }, 300);
+      document.body.style.overflow = 'auto'; // Devolve a rolagem
+    }
+  </script>
+
 {% endblock %}

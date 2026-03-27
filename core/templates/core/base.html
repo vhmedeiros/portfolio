@@ -5,9 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{% block title %}Portfólio{% endblock %}</title>
   <meta name="description" content="{% block meta_description %}Desenvolvedor Full Stack & Especialista em Automação{% endblock %}" />
+  
+  {% load static %}
+  <link rel="icon" type="image/png" href="{% static 'core/images/favicon.png' %}">
 
-  <!-- Tailwind CSS via CDN (substituir pelo build em produção) -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -47,31 +49,36 @@
     }
   </script>
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
-  <!-- AOS - Animate On Scroll -->
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
 
-  <!-- HTMX -->
   <script src="https://unpkg.com/htmx.org@1.9.10" defer></script>
 
   <style>
-    body { background-color: #0a0f1e; color: #e2e8f0; font-family: 'DM Sans', sans-serif; }
+    /* ALTERAÇÃO: Fundo levemente mais claro (#0f172a ao invés de #0a0f1e) */
+    body { background-color: #0f172a; color: #e2e8f0; font-family: 'DM Sans', sans-serif; }
 
     /* Scrollbar customizada */
     ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #0a0f1e; }
+    /* ALTERAÇÃO: Fundo da scrollbar ajustado para combinar */
+    ::-webkit-scrollbar-track { background: #0f172a; }
     ::-webkit-scrollbar-thumb { background: #0ea5e9; border-radius: 3px; }
+    
+    /* Scrollbar específica para blocos de código */
+    .custom-scrollbar::-webkit-scrollbar { height: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    .custom-scrollbar:hover::-webkit-scrollbar-thumb { background: #0ea5e9; }
 
     /* Gradiente de fundo animado no hero */
     .hero-bg {
       background:
         radial-gradient(ellipse 80% 60% at 50% -10%, rgba(14,165,233,0.18) 0%, transparent 70%),
         radial-gradient(ellipse 50% 40% at 80% 60%, rgba(99,102,241,0.10) 0%, transparent 60%),
-        #0a0f1e;
+        #0f172a; /* ALTERAÇÃO: Cor base combinando com o novo fundo */
     }
 
     /* Grid de pontos decorativo */
@@ -125,29 +132,24 @@
 
 <body class="font-body antialiased">
 
-  <!-- NAVBAR -->
   <header class="fixed top-0 inset-x-0 z-50 border-b border-surface-700/50 bg-surface-900/80 backdrop-blur-md">
     <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
 
-      <!-- Logo -->
-      <a href="{% url 'home' %}" class="flex items-center gap-2 group">
-        <span class="w-7 h-7 rounded bg-brand-500 flex items-center justify-center text-white font-mono text-sm font-bold group-hover:bg-brand-400 transition-colors">&lt;/&gt;</span>
-        <span class="font-display font-semibold text-slate-100 tracking-tight">VH<span class="text-brand-400">.</span>Medeiros</span>
+      <a href="{% url 'home' %}" class="flex items-center gap-3 group">
+        <img src="{% static 'core/images/logo.png' %}" alt="VH Medeiros Logo" class="h-10 w-10 bg-white rounded-full p-1.5 object-contain group-hover:opacity-80 transition-opacity">
+        <span class="font-display font-semibold text-slate-100 tracking-tight hidden sm:block">VH<span class="text-brand-400">.</span>Medeiros</span>
       </a>
 
-      <!-- Links desktop -->
       <ul class="hidden md:flex items-center gap-8 text-sm text-slate-400">
         <li><a href="{% url 'home' %}"         class="nav-link hover:text-slate-100 transition-colors">Início</a></li>
         <li><a href="{% url 'project_list' %}" class="nav-link hover:text-slate-100 transition-colors">Projetos</a></li>
         <li><a href="{% url 'contact' %}"      class="nav-link hover:text-slate-100 transition-colors">Contato</a></li>
       </ul>
 
-      <!-- CTA -->
       <a href="{% url 'contact' %}" class="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-brand-500 hover:bg-brand-400 text-white text-sm font-medium transition-colors">
         Fale comigo
       </a>
 
-      <!-- Mobile menu button -->
       <button id="mobile-menu-btn" class="md:hidden text-slate-400 hover:text-slate-100 transition-colors" aria-label="Menu">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -155,7 +157,6 @@
       </button>
     </nav>
 
-    <!-- Mobile menu -->
     <div id="mobile-menu" class="hidden md:hidden border-t border-surface-700/50 bg-surface-900/95 backdrop-blur-md px-6 py-4">
       <ul class="flex flex-col gap-4 text-sm text-slate-300">
         <li><a href="{% url 'home' %}"         class="block hover:text-brand-400 transition-colors">Início</a></li>
@@ -165,7 +166,6 @@
     </div>
   </header>
 
-  <!-- HTMX loading indicator global -->
   <div id="htmx-indicator" class="fixed top-16 inset-x-0 z-40 items-center justify-center py-2 bg-brand-600/20 backdrop-blur-sm pointer-events-none">
     <div class="flex items-center gap-2 text-brand-400 text-xs font-mono">
       <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -176,12 +176,10 @@
     </div>
   </div>
 
-  <!-- MAIN CONTENT -->
   <main class="pt-16">
     {% block content %}{% endblock %}
   </main>
 
-  <!-- FOOTER -->
   <footer class="border-t border-surface-700/50 mt-24">
     <div class="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-500">
       <p>© {% now "Y" %} VH Medeiros — Feito com Django + HTMX</p>
@@ -192,7 +190,6 @@
     </div>
   </footer>
 
-  <!-- AOS init -->
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <script>
     AOS.init({ duration: 600, once: true, offset: 60 });

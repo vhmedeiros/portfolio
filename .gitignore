@@ -5,6 +5,7 @@ __pycache__/
 db.sqlite3
 staticfiles/
 media/
+minhas_imagens/
 .DS_Store
 deploy_key
 deploy_key.pub
