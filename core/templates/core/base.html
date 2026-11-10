@@ -3,201 +3,103 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{% block title %}Portfólio{% endblock %}</title>
-  <meta name="description" content="{% block meta_description %}Desenvolvedor Full Stack & Especialista em Automação{% endblock %}" />
-  
+  <title>{% block title %}VH.Medeiros{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}Desenvolvedor Python backend: APIs REST, automação e sistemas web em produção.{% endblock %}" />
+  <meta name="theme-color" content="#0F172A" />
+
   {% load static %}
   <link rel="icon" type="image/png" href="{% static 'core/images/favicon.png' %}">
 
-  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              50:  "#f0f9ff",
-              100: "#e0f2fe",
-              400: "#38bdf8",
-              500: "#0ea5e9",
-              600: "#0284c7",
-              900: "#0c4a6e",
-            },
-            surface: {
-              900: "#0a0f1e",
-              800: "#0f172a",
-              700: "#1e293b",
-              600: "#334155",
-            }
-          },
-          fontFamily: {
-            display: ["'DM Sans'", "sans-serif"],
-            body:    ["'DM Sans'", "sans-serif"],
-            mono:    ["'JetBrains Mono'", "monospace"],
-          },
-          animation: {
-            "fade-up": "fadeUp 0.6s ease forwards",
-          },
-          keyframes: {
-            fadeUp: {
-              "0%":   { opacity: "0", transform: "translateY(24px)" },
-              "100%": { opacity: "1", transform: "translateY(0)" },
-            }
-          }
-        }
-      }
-    }
-  </script>
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
-  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'core/css/site.css' %}" />
 
   <script src="https://unpkg.com/htmx.org@1.9.10" defer></script>
-
-  <style>
-    /* ALTERAÇÃO: Fundo levemente mais claro (#0f172a ao invés de #0a0f1e) */
-    body { background-color: #0f172a; color: #e2e8f0; font-family: 'DM Sans', sans-serif; }
-
-    /* Scrollbar customizada */
-    ::-webkit-scrollbar { width: 6px; }
-    /* ALTERAÇÃO: Fundo da scrollbar ajustado para combinar */
-    ::-webkit-scrollbar-track { background: #0f172a; }
-    ::-webkit-scrollbar-thumb { background: #0ea5e9; border-radius: 3px; }
-    
-    /* Scrollbar específica para blocos de código */
-    .custom-scrollbar::-webkit-scrollbar { height: 4px; }
-    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-    .custom-scrollbar:hover::-webkit-scrollbar-thumb { background: #0ea5e9; }
-
-    /* Gradiente de fundo animado no hero */
-    .hero-bg {
-      background:
-        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(14,165,233,0.18) 0%, transparent 70%),
-        radial-gradient(ellipse 50% 40% at 80% 60%, rgba(99,102,241,0.10) 0%, transparent 60%),
-        #0f172a; /* ALTERAÇÃO: Cor base combinando com o novo fundo */
-    }
-
-    /* Grid de pontos decorativo */
-    .dot-grid {
-      background-image: radial-gradient(rgba(148,163,184,0.12) 1px, transparent 1px);
-      background-size: 28px 28px;
-    }
-
-    /* Brilho nos cards ao hover */
-    .card-glow {
-      transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
-    }
-    .card-glow:hover {
-      box-shadow: 0 0 0 1px rgba(14,165,233,0.4), 0 20px 60px rgba(14,165,233,0.12);
-      transform: translateY(-4px);
-      border-color: rgba(14,165,233,0.4);
-    }
-
-    /* Tag pill */
-    .tag-pill {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.05em;
-    }
-
-    /* Linha de acento animada nos links de nav */
-    .nav-link {
-      position: relative;
-    }
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      bottom: -2px; left: 0;
-      width: 0; height: 1px;
-      background: #0ea5e9;
-      transition: width 0.25s ease;
-    }
-    .nav-link:hover::after,
-    .nav-link.active::after { width: 100%; }
-
-    /* HTMX loading indicator */
-    #htmx-indicator {
-      display: none;
-    }
-    .htmx-request #htmx-indicator { display: flex; }
-    .htmx-request.htmx-indicator { display: flex; }
-  </style>
 
   {% block extra_head %}{% endblock %}
 </head>
 
-<body class="font-body antialiased">
+<body class="font-sans antialiased min-h-screen flex flex-col">
 
-  <header class="fixed top-0 inset-x-0 z-50 border-b border-surface-700/50 bg-surface-900/80 backdrop-blur-md">
-    <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+  {% url 'home' as home_url %}
+  {% url 'project_list' as projects_url %}
+  {% url 'contact' as contact_url %}
 
-      <a href="{% url 'home' %}" class="flex items-center gap-3 group">
-        <img src="{% static 'core/images/logo.png' %}" alt="VH Medeiros Logo" class="h-10 w-10 bg-white rounded-full p-1.5 object-contain group-hover:opacity-80 transition-opacity">
-        <span class="font-display font-semibold text-slate-100 tracking-tight hidden sm:block">VH<span class="text-brand-400">.</span>Medeiros</span>
+  <header class="fixed top-0 inset-x-0 z-50 border-b border-white/5 bg-surface-950/80 backdrop-blur-md">
+    <nav class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+
+      <a href="{{ home_url }}" class="flex items-center gap-3 group" aria-label="VH.Medeiros — início">
+        <img src="{% static 'core/images/logo.png' %}" alt="" class="h-8 w-8 rounded-md bg-slate-100 p-1 object-contain">
+        <span class="font-semibold text-slate-100 tracking-tight">VH<span class="text-accent-400">.</span>Medeiros</span>
       </a>
 
       <ul class="hidden md:flex items-center gap-8 text-sm text-slate-400">
-        <li><a href="{% url 'home' %}"         class="nav-link hover:text-slate-100 transition-colors">Início</a></li>
-        <li><a href="{% url 'project_list' %}" class="nav-link hover:text-slate-100 transition-colors">Projetos</a></li>
-        <li><a href="{% url 'contact' %}"      class="nav-link hover:text-slate-100 transition-colors">Contato</a></li>
+        <li><a href="{{ home_url }}" class="nav-link hover:text-slate-100 transition-colors" {% if request.path == home_url %}aria-current="page"{% endif %}>Início</a></li>
+        <li><a href="{{ projects_url }}" class="nav-link hover:text-slate-100 transition-colors" {% if request.path|slice:":10" == projects_url %}aria-current="page"{% endif %}>Projetos</a></li>
+        <li><a href="{{ contact_url }}" class="nav-link hover:text-slate-100 transition-colors" {% if request.path == contact_url %}aria-current="page"{% endif %}>Contato</a></li>
       </ul>
 
-      <a href="{% url 'contact' %}" class="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-brand-500 hover:bg-brand-400 text-white text-sm font-medium transition-colors">
-        Fale comigo
-      </a>
-
-      <button id="mobile-menu-btn" class="md:hidden text-slate-400 hover:text-slate-100 transition-colors" aria-label="Menu">
+      <button id="mobile-menu-btn" class="md:hidden -mr-2.5 p-2.5 text-slate-400 hover:text-slate-100 transition-colors" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-menu">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M4 7h16M4 12h16M4 17h16"/>
         </svg>
       </button>
     </nav>
 
-    <div id="mobile-menu" class="hidden md:hidden border-t border-surface-700/50 bg-surface-900/95 backdrop-blur-md px-6 py-4">
-      <ul class="flex flex-col gap-4 text-sm text-slate-300">
-        <li><a href="{% url 'home' %}"         class="block hover:text-brand-400 transition-colors">Início</a></li>
-        <li><a href="{% url 'project_list' %}" class="block hover:text-brand-400 transition-colors">Projetos</a></li>
-        <li><a href="{% url 'contact' %}"      class="block hover:text-brand-400 transition-colors">Contato</a></li>
+    <div id="mobile-menu" class="hidden md:hidden border-t border-white/5 bg-surface-950/95 px-6 py-4">
+      <ul class="flex flex-col gap-1 text-base text-slate-300">
+        <li><a href="{{ home_url }}" class="block py-2 hover:text-accent-400 transition-colors">Início</a></li>
+        <li><a href="{{ projects_url }}" class="block py-2 hover:text-accent-400 transition-colors">Projetos</a></li>
+        <li><a href="{{ contact_url }}" class="block py-2 hover:text-accent-400 transition-colors">Contato</a></li>
       </ul>
     </div>
   </header>
 
-  <div id="htmx-indicator" class="fixed top-16 inset-x-0 z-40 items-center justify-center py-2 bg-brand-600/20 backdrop-blur-sm pointer-events-none">
-    <div class="flex items-center gap-2 text-brand-400 text-xs font-mono">
-      <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
-      </svg>
-      carregando...
-    </div>
-  </div>
+  <!-- Barra fina de carregamento (requisições HTMX) -->
+  <div id="htmx-indicator" class="fixed top-16 inset-x-0 z-40 h-0.5 bg-accent-400/70 animate-pulse pointer-events-none" aria-hidden="true"></div>
 
-  <main class="pt-16">
+  <main class="pt-16 flex-1">
     {% block content %}{% endblock %}
   </main>
 
-  <footer class="border-t border-surface-700/50 mt-24">
-    <div class="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-500">
-      <p>© {% now "Y" %} VH Medeiros — Feito com Django + HTMX</p>
+  <footer class="border-t border-white/5 mt-24">
+    <div class="max-w-5xl mx-auto px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-400">
+      <p>© {% now "Y" %} VH<span class="text-accent-400">.</span>Medeiros</p>
       <div class="flex items-center gap-6">
-        <a href="{% url 'project_list' %}" class="hover:text-slate-300 transition-colors">Projetos</a>
-        <a href="{% url 'contact' %}"      class="hover:text-slate-300 transition-colors">Contato</a>
+        <a href="https://github.com/vhmedeiros" target="_blank" rel="noopener noreferrer" class="hover:text-slate-300 transition-colors">GitHub</a>
+        <a href="https://www.linkedin.com/in/vhmedeiros" target="_blank" rel="noopener noreferrer" class="hover:text-slate-300 transition-colors">LinkedIn</a>
+        <a href="{{ contact_url }}" class="hover:text-slate-300 transition-colors">Contato</a>
       </div>
     </div>
   </footer>
 
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <script>
-    AOS.init({ duration: 600, once: true, offset: 60 });
-
-    // Mobile menu toggle
+    // Menu mobile
     const btn  = document.getElementById("mobile-menu-btn");
     const menu = document.getElementById("mobile-menu");
-    btn.addEventListener("click", () => menu.classList.toggle("hidden"));
+    btn.addEventListener("click", () => {
+      const open = menu.classList.toggle("hidden") === false;
+      btn.setAttribute("aria-expanded", open);
+    });
+
+    // Animação de entrada (.reveal). Também roda em conteúdo trazido pelo HTMX.
+    const observer = "IntersectionObserver" in window
+      ? new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) { e.target.classList.add("is-visible"); observer.unobserve(e.target); }
+          });
+        }, { rootMargin: "0px 0px -40px 0px" })
+      : null;
+
+    function initReveal(root) {
+      root.querySelectorAll(".reveal:not(.is-visible)").forEach((el) => {
+        observer ? observer.observe(el) : el.classList.add("is-visible");
+      });
+    }
+    initReveal(document);
+    document.body.addEventListener("htmx:afterSwap", (e) => initReveal(e.detail.target));
   </script>
 
   {% block extra_js %}{% endblock %}

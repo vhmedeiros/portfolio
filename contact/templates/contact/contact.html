@@ -1,64 +1,59 @@
 {% extends "core/base.html" %}
 
-{% block title %}Contato — Portfólio{% endblock %}
+{% block title %}Contato — VH.Medeiros{% endblock %}
 
 {% block content %}
-<section class="max-w-5xl mx-auto px-6 py-16">
+<section class="max-w-5xl mx-auto px-6 pt-16 md:pt-24">
 
-  <div class="grid md:grid-cols-2 gap-16 items-start">
+  <div class="grid md:grid-cols-[1fr_1.1fr] gap-12 md:gap-16 items-start">
 
-    <!-- Lado esquerdo: info -->
-    <div data-aos="fade-right">
-      <p class="text-brand-400 font-mono text-sm mb-2">// fale comigo</p>
-      <h1 class="text-4xl font-display font-bold text-slate-100 mb-6">Vamos conversar?</h1>
+    <!-- Informações de contato -->
+    <div class="reveal">
+      <p class="text-accent-400 font-mono text-xs uppercase tracking-widest mb-3">Contato</p>
+      <h1 class="text-3xl sm:text-4xl font-semibold text-slate-50 tracking-tight mb-5">Vamos conversar?</h1>
       <p class="text-slate-400 leading-relaxed mb-10">
-        Estou disponível para novos projetos, consultorias e colaborações.
-        Me conta o que você precisa e retorno em até 24 horas.
+        Estou buscando uma vaga de desenvolvedor backend Python. Me chame por e-mail ou LinkedIn.
       </p>
 
-      <!-- Info cards -->
-      <div class="space-y-4">
-        <div class="flex items-center gap-4 p-4 rounded-xl border border-surface-700 bg-surface-800/40">
-          <div class="w-10 h-10 rounded-lg bg-brand-500/20 flex items-center justify-center text-brand-400 flex-shrink-0">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+      <ul class="divide-y divide-white/5 border-y border-white/5">
+        <li>
+          <a href="mailto:victor@vhmedeiros.dev.br" class="group flex items-center gap-4 py-4">
+            <svg class="w-5 h-5 text-slate-400 group-hover:text-accent-400 transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
             </svg>
-          </div>
-          <div>
-            <p class="text-xs text-slate-500 font-mono mb-0.5">EMAIL</p>
-            <p class="text-slate-300 text-sm">victor@vhmedeiros.dev.br</p>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-4 p-4 rounded-xl border border-surface-700 bg-surface-800/40">
-          <div class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400 flex-shrink-0">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-              <path d="M12 0C5.373 0 0 5.373 0 12c0 2.09.549 4.05 1.5 5.762L0 24l6.421-1.463A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.92 0-3.73-.487-5.31-1.336l-.38-.214-3.81.87.944-3.718-.235-.385A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+            <span class="min-w-0">
+              <span class="block text-[11px] text-slate-400 font-mono uppercase tracking-wider">E-mail</span>
+              <span class="block text-slate-200 text-sm group-hover:text-accent-300 transition-colors break-all">victor@vhmedeiros.dev.br</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.linkedin.com/in/vhmedeiros" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-4 py-4">
+            <svg class="w-5 h-5 text-slate-400 group-hover:text-accent-400 transition-colors flex-shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 110-4.13 2.06 2.06 0 010 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/>
             </svg>
-          </div>
-          <div>
-            <p class="text-xs text-slate-500 font-mono mb-0.5">WHATSAPP</p>
-            <p class="text-slate-300 text-sm">+55 (61) 99888-3036</p>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-4 p-4 rounded-xl border border-surface-700 bg-surface-800/40">
-          <div class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-400 flex-shrink-0">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            <span class="min-w-0">
+              <span class="block text-[11px] text-slate-400 font-mono uppercase tracking-wider">LinkedIn</span>
+              <span class="block text-slate-200 text-sm group-hover:text-accent-300 transition-colors">linkedin.com/in/vhmedeiros</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/vhmedeiros" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-4 py-4">
+            <svg class="w-5 h-5 text-slate-400 group-hover:text-accent-400 transition-colors flex-shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.015 2.896-.015 3.286 0 .315.216.69.825.572C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/>
             </svg>
-          </div>
-          <div>
-            <p class="text-xs text-slate-500 font-mono mb-0.5">RESPOSTA</p>
-            <p class="text-slate-300 text-sm">Em até 24 horas</p>
-          </div>
-        </div>
-      </div>
+            <span class="min-w-0">
+              <span class="block text-[11px] text-slate-400 font-mono uppercase tracking-wider">GitHub</span>
+              <span class="block text-slate-200 text-sm group-hover:text-accent-300 transition-colors">github.com/vhmedeiros</span>
+            </span>
+          </a>
+        </li>
+      </ul>
     </div>
 
-    <!-- Lado direito: formulário -->
-    <div data-aos="fade-left" data-aos-delay="100">
+    <!-- Formulário -->
+    <div class="reveal" style="transition-delay:.1s">
       <div id="contact-form-wrapper">
         {% include "contact/partials/form.html" %}
       </div>

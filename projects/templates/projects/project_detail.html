@@ -1,59 +1,55 @@
 {% extends "core/base.html" %}
 {% load markdown_tags %}
 
-{% block title %}{{ project.title }} — Portfólio{% endblock %}
+{% block title %}{{ project.title }} — VH.Medeiros{% endblock %}
 {% block meta_description %}{{ project.short_description }}{% endblock %}
 
 {% block content %}
-<article class="max-w-4xl mx-auto px-6 py-16">
+<article class="max-w-3xl mx-auto px-6 pt-16 md:pt-24">
 
   <!-- Breadcrumb -->
-  <nav class="flex items-center gap-2 text-sm text-slate-500 mb-10" data-aos="fade-up">
+  <nav class="reveal flex items-center gap-2 text-sm text-slate-400 mb-10 min-w-0" aria-label="Navegação estrutural">
     <a href="{% url 'home' %}" class="hover:text-slate-300 transition-colors">Início</a>
-    <span>/</span>
+    <span aria-hidden="true">/</span>
     <a href="{% url 'project_list' %}" class="hover:text-slate-300 transition-colors">Projetos</a>
-    <span>/</span>
-    <span class="text-slate-300">{{ project.title }}</span>
+    <span aria-hidden="true">/</span>
+    <span class="text-slate-300 truncate">{{ project.title }}</span>
   </nav>
 
-  <!-- Tags -->
-  <div class="flex flex-wrap gap-2 mb-4" data-aos="fade-up">
+  {% if project.tags.all %}
+  <div class="reveal flex flex-wrap gap-1.5 mb-5">
     {% for tag in project.tags.all %}
       <a href="{% url 'project_list' %}?tag={{ tag.slug }}"
-         class="tag-pill px-3 py-1 rounded-full transition-colors"
-         style="background-color: {{ tag.color }}22; border: 1px solid {{ tag.color }}55; color: {{ tag.color }};">
+         class="px-2 py-0.5 rounded font-mono text-xs text-slate-400 bg-white/5 hover:text-accent-300 transition-colors">
         {{ tag.name }}
       </a>
     {% endfor %}
   </div>
+  {% endif %}
 
-  <!-- Título -->
-  <h1 class="text-4xl md:text-5xl font-display font-bold text-slate-100 mb-6 leading-tight"
-      data-aos="fade-up" data-aos-delay="100">
+  <h1 class="reveal text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-50 tracking-tight leading-tight mb-6" style="transition-delay:.05s">
     {{ project.title }}
   </h1>
 
-  <p class="text-xl text-slate-300 leading-relaxed mb-10"
-     data-aos="fade-up" data-aos-delay="150">
+  <p class="reveal text-lg sm:text-xl text-slate-400 leading-relaxed mb-10" style="transition-delay:.1s">
     {{ project.short_description }}
   </p>
 
-  <!-- Links -->
   {% if project.demo_url or project.repo_url %}
-  <div class="flex flex-wrap gap-4 mb-12" data-aos="fade-up" data-aos-delay="200">
+  <div class="reveal flex flex-wrap gap-3 mb-12" style="transition-delay:.15s">
     {% if project.demo_url %}
       <a href="{{ project.demo_url }}" target="_blank" rel="noopener noreferrer"
-         class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-500 hover:bg-brand-400 text-white text-sm font-medium transition-colors">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+         class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent-400 hover:bg-accent-300 text-surface-950 text-sm font-semibold transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
         </svg>
-        Ver Demo
+        Ver demo
       </a>
     {% endif %}
     {% if project.repo_url %}
       <a href="{{ project.repo_url }}" target="_blank" rel="noopener noreferrer"
-         class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-surface-600 hover:border-brand-500/50 text-slate-300 hover:text-slate-100 text-sm font-medium transition-colors">
-        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+         class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-surface-600 hover:border-accent-400/50 text-slate-200 text-sm font-medium transition-colors">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.015 2.896-.015 3.286 0 .315.216.69.825.572C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/>
         </svg>
         Repositório
@@ -62,51 +58,47 @@
   </div>
   {% endif %}
 
-  <!-- Thumbnail -->
   {% if project.thumbnail %}
-  <div class="rounded-2xl overflow-hidden border border-surface-700 mb-12" data-aos="fade-up">
+  <div class="reveal rounded-xl overflow-hidden border border-white/5 mb-14">
     <img src="{{ project.thumbnail.url }}" alt="{{ project.title }}" class="w-full" />
   </div>
   {% endif %}
 
-  {% if project.images.all %}
-  <div class="mb-12">
-    <h2 class="text-2xl font-display font-semibold text-slate-100 mb-6" data-aos="fade-up">
-      <span class="text-brand-400 font-mono text-lg mr-2">#</span>Telas do Sistema
-    </h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-      {% for img in project.images.all %}
-        <div class="rounded-xl overflow-hidden border border-surface-700 bg-surface-800/60 group" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
-          <div class="overflow-hidden">
-            <img src="{{ img.image.url }}" alt="{{ img.caption|default:project.title }}" 
-     class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500 cursor-zoom-in" 
-     onclick="openLightbox(this.src)" />
-          </div>
-          {% if img.caption %}
-            <div class="p-3 border-t border-surface-700 text-sm text-slate-400 text-center font-mono">
-              {{ img.caption }}
-            </div>
-          {% endif %}
-        </div>
-      {% endfor %}
-    </div>
-  </div>
-  {% endif %}
-
-  <!-- Descrição completa -->
-  <div class="prose prose-invert prose-slate max-w-none
-              prose-headings:font-display prose-headings:font-semibold
-              prose-a:text-brand-400 prose-a:no-underline hover:prose-a:underline
-              prose-code:font-mono prose-code:text-brand-300 prose-code:bg-surface-700 prose-code:px-1 prose-code:rounded
-              prose-pre:bg-surface-800 prose-pre:border prose-pre:border-surface-700"
-       data-aos="fade-up">
+  <!-- Descrição completa (Markdown) -->
+  <div class="reveal prose prose-invert max-w-none
+              prose-headings:font-semibold prose-headings:tracking-tight prose-headings:text-slate-100
+              prose-p:text-slate-300 prose-li:text-slate-300 prose-strong:text-slate-100
+              prose-a:text-accent-300 prose-a:no-underline hover:prose-a:underline
+              prose-code:font-mono prose-code:text-accent-300 prose-code:bg-white/5 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none
+              prose-pre:bg-surface-900 prose-pre:border prose-pre:border-white/5
+              prose-hr:border-white/10 prose-th:text-slate-200 prose-td:text-slate-300">
     {{ project.full_description|render_markdown }}
   </div>
 
-  <!-- Voltar -->
-  <div class="mt-16 pt-8 border-t border-surface-700" data-aos="fade-up">
-    <a href="{% url 'project_list' %}" class="inline-flex items-center gap-2 text-slate-400 hover:text-brand-400 transition-colors text-sm">
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  {% if project.images.all %}
+  <section class="mt-16">
+    <h2 class="reveal text-xl font-semibold text-slate-100 tracking-tight mb-6">Telas do sistema</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      {% for img in project.images.all %}
+        <figure class="reveal rounded-lg overflow-hidden border border-white/5 bg-surface-900">
+          <button type="button" class="block w-full overflow-hidden cursor-zoom-in" onclick="openLightbox('{{ img.image.url|escapejs }}')" aria-label="Ampliar imagem">
+            <img src="{{ img.image.url }}" alt="{{ img.caption|default:project.title }}" loading="lazy"
+                 class="w-full h-auto object-cover hover:opacity-90 transition-opacity" />
+          </button>
+          {% if img.caption %}
+            <figcaption class="px-3 py-2.5 border-t border-white/5 text-xs text-slate-400 text-center font-mono">
+              {{ img.caption }}
+            </figcaption>
+          {% endif %}
+        </figure>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  <div class="mt-16 pt-8 border-t border-white/5">
+    <a href="{% url 'project_list' %}" class="inline-flex items-center gap-2 text-slate-400 hover:text-accent-300 transition-colors text-sm">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
       </svg>
       Voltar para projetos
@@ -115,39 +107,38 @@
 
 </article>
 
-<div id="lightbox" class="fixed inset-0 z-[100] bg-surface-900/95 backdrop-blur-sm hidden flex-col items-center justify-center p-4 opacity-0 transition-opacity duration-300" onclick="closeLightbox()">
-    <button class="absolute top-6 right-6 text-slate-400 hover:text-white transition-colors">
-      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-    </button>
-    <img id="lightbox-img" src="" class="max-w-full max-h-[85vh] rounded-lg shadow-2xl scale-95 transition-transform duration-300" onclick="event.stopPropagation()">
-  </div>
+<!-- Lightbox das imagens -->
+<div id="lightbox" class="fixed inset-0 z-[100] bg-surface-950/95 hidden items-center justify-center p-4 opacity-0 transition-opacity duration-300" onclick="closeLightbox()" role="dialog" aria-modal="true">
+  <button type="button" class="absolute top-5 right-5 p-2 text-slate-400 hover:text-white transition-colors" aria-label="Fechar">
+    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+  </button>
+  <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[85vh] rounded-lg" onclick="event.stopPropagation()">
+</div>
+{% endblock %}
 
-  <script>
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
+{% block extra_js %}
+<script>
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightbox-img");
 
-    function openLightbox(imageSrc) {
-      lightboxImg.src = imageSrc;
-      lightbox.classList.remove('hidden');
-      lightbox.classList.add('flex');
-      // Pequeno delay para a transição de opacidade funcionar no Tailwind
-      setTimeout(() => {
-        lightbox.classList.remove('opacity-0');
-        lightboxImg.classList.remove('scale-95');
-      }, 10);
-      document.body.style.overflow = 'hidden'; // Impede rolagem do fundo
-    }
+  function openLightbox(src) {
+    lightboxImg.src = src;
+    lightbox.classList.remove("hidden");
+    lightbox.classList.add("flex");
+    requestAnimationFrame(() => lightbox.classList.remove("opacity-0"));
+    document.body.style.overflow = "hidden";
+  }
 
-    function closeLightbox() {
-      lightbox.classList.add('opacity-0');
-      lightboxImg.classList.add('scale-95');
-      setTimeout(() => {
-        lightbox.classList.add('hidden');
-        lightbox.classList.remove('flex');
-        lightboxImg.src = '';
-      }, 300);
-      document.body.style.overflow = 'auto'; // Devolve a rolagem
-    }
-  </script>
+  function closeLightbox() {
+    lightbox.classList.add("opacity-0");
+    setTimeout(() => {
+      lightbox.classList.add("hidden");
+      lightbox.classList.remove("flex");
+      lightboxImg.src = "";
+    }, 300);
+    document.body.style.overflow = "";
+  }
 
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLightbox(); });
+</script>
 {% endblock %}

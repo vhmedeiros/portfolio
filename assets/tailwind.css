@@ -1,0 +1,66 @@
+/* Fonte do CSS do site. Não edite core/static/core/css/site.css: ele é gerado a partir daqui. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body { background-color: #0F172A; color: #cbd5e1; }
+  ::selection { background: rgba(74, 222, 128, 0.25); color: #fff; }
+
+  /* Foco visível para quem navega pelo teclado */
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+    outline: 2px solid #4ade80; outline-offset: 3px; border-radius: 6px;
+  }
+  a, button { cursor: pointer; }
+
+  /* Scrollbar discreta */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: #0F172A; }
+  ::-webkit-scrollbar-thumb { background: #272F42; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #16a34a; }
+}
+
+/* Em "components" para que as classes utilitárias (ex.: hover:-translate-y-0.5) ainda vençam. */
+@layer components {
+  /* Grade técnica de fundo no hero, sumindo nas bordas */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgba(148,163,184,.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(148,163,184,.07) 1px, transparent 1px);
+    background-size: 48px 48px;
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 30%, transparent 100%);
+            mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 30%, transparent 100%);
+  }
+  /* Brilho mínimo atrás do hero */
+  .hero-glow {
+    background: radial-gradient(ellipse 50% 40% at 30% 20%, rgba(34,197,94,.10), transparent 70%);
+  }
+
+  /* Cursor piscando no card de código */
+  .caret { display: inline-block; width: .55em; height: 1.1em; vertical-align: -.15em; background: #4ade80; animation: blink 1.1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* Animação de entrada: aparece suavemente ao rolar até o elemento */
+  .reveal { opacity: 0; transform: translateY(12px); transition: opacity .4s ease-out, transform .4s ease-out; }
+  .reveal.is-visible { opacity: 1; transform: none; }
+
+  /* Sublinhado do link ativo/hover no menu */
+  .nav-link { position: relative; }
+  .nav-link::after {
+    content: ''; position: absolute; left: 0; bottom: -6px;
+    width: 100%; height: 1px; background: #4ade80;
+    transform: scaleX(0); transform-origin: left; transition: transform .25s ease;
+  }
+  .nav-link:hover::after, .nav-link[aria-current="page"]::after { transform: scaleX(1); }
+}
+
+/* Fora de @layer: a classe .htmx-request é adicionada pelo HTMX em tempo de execução e não aparece
+   nos templates, então o Tailwind a removeria se estivesse dentro de um layer. */
+#htmx-indicator { display: none; }
+.htmx-request #htmx-indicator, .htmx-request.htmx-indicator { display: block; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .caret { animation: none; }
+  html { scroll-behavior: auto; }
+}

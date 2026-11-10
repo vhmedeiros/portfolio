@@ -1,0 +1,39 @@
+<a href="{% url 'project_detail' project.slug %}"
+   class="reveal group flex flex-col rounded-xl border border-white/5 bg-surface-900 overflow-hidden hover:border-accent-400/40 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/30 transition duration-200"
+   style="transition-delay: {% widthratio forloop.counter0 1 60 %}ms">
+
+  {% if project.thumbnail %}
+    <div class="aspect-video overflow-hidden bg-surface-800">
+      <img src="{{ project.thumbnail.url }}" alt="{{ project.title }}" loading="lazy"
+           class="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-[1.02] transition duration-500" />
+    </div>
+  {% else %}
+    <div class="aspect-video bg-surface-800 flex items-center justify-center">
+      <span class="text-3xl font-mono text-surface-600">&lt;/&gt;</span>
+    </div>
+  {% endif %}
+
+  <div class="flex flex-col flex-1 p-5">
+    {% if project.tags.all %}
+    <div class="flex flex-wrap gap-1.5 mb-3">
+      {% for tag in project.tags.all %}
+        <span class="px-2 py-0.5 rounded font-mono text-[11px] text-slate-400 bg-white/5">{{ tag.name }}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <h3 class="font-semibold text-slate-100 mb-2 group-hover:text-accent-300 transition-colors">
+      {{ project.title }}
+    </h3>
+    <p class="text-slate-400 text-sm leading-relaxed line-clamp-3">
+      {{ project.short_description }}
+    </p>
+
+    <span class="mt-auto pt-5 inline-flex items-center text-sm text-slate-300 group-hover:text-accent-300 transition-colors">
+      Ver detalhes
+      <svg class="w-4 h-4 ml-1 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+      </svg>
+    </span>
+  </div>
+</a>

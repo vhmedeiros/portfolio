@@ -331,7 +331,7 @@ nano .env
 ```env
 DEBUG=False
 SECRET_KEY=uma-string-muito-longa-e-aleatoria-aqui
-ALLOWED_HOSTS=147.15.99.16,seudominio.com,www.seudominio.com
+ALLOWED_HOSTS=seudominio.com,www.seudominio.com
 ```
 
 ```bash
