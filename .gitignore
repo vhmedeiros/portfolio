@@ -9,3 +9,5 @@ minhas_imagens/
 .DS_Store
 deploy_key
 deploy_key.pub
+# WSL download metadata
+*:Zone.Identifier
