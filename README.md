@@ -24,8 +24,8 @@ O HTML é renderizado no servidor pelo Django, e as interações parciais (filtr
 ## Arquitetura
 
 ```
-navegador ──► Nginx :80 ──► /static/, /media/   (servidos direto do volume)
-                   └──────► Gunicorn :8000 ──► Django ──► SQLite
+navegador ──► Nginx :443 (HTTPS, Let's Encrypt; :80 redireciona) ──► /static/, /media/
+                   └──────► Gunicorn :8000 (só rede interna) ──► Django ──► SQLite
                                                  └──────► Gmail SMTP (aviso do formulário de contato)
 ```
 
@@ -51,8 +51,8 @@ SECRET_KEY=qualquer-string-longa
 ALLOWED_HOSTS=localhost,127.0.0.1
 EOF
 
-# 2. Suba os containers
-docker compose up --build
+# 2. Suba os containers (o arquivo dev troca o Nginx HTTPS de produção por um só HTTP)
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 
 # 3. Em outro terminal: banco e usuário do admin
 docker exec portfolio_web python manage.py migrate
@@ -61,7 +61,7 @@ docker exec -it portfolio_web python manage.py createsuperuser
 
 | O quê | URL |
 |---|---|
-| Site (via Nginx) | http://localhost |
+| Site (via Nginx, só HTTP) | http://localhost |
 | Site (direto no Gunicorn) | http://localhost:8000 |
 | Admin | http://localhost/admin |
 
@@ -157,9 +157,12 @@ portfolio/
 │   └── templates/contact/  # contact.html e partials/form.html (HTMX)
 ├── assets/tailwind.css     # fonte do CSS
 ├── tailwind.config.js
-├── nginx/nginx.conf        # proxy reverso e arquivos estáticos/mídia
+├── nginx/
+│   ├── nginx.conf          # produção: HTTPS, proxy reverso, estáticos e mídia
+│   └── nginx.dev.conf      # desenvolvimento: só HTTP
 ├── Dockerfile
-├── docker-compose.yml
+├── docker-compose.yml      # produção
+├── docker-compose.dev.yml  # ajustes para rodar localmente
 └── .github/workflows/deploy.yml
 ```
 
@@ -190,9 +193,13 @@ SECRET_KEY=uma-string-longa-e-aleatoria
 ALLOWED_HOSTS=seudominio.com,www.seudominio.com
 ```
 
+O HTTPS usa certificados do **Let's Encrypt** gerados na própria VM: o Nginx lê `/etc/letsencrypt` do host, que é montado no container. Emita o certificado (por exemplo com `certbot certonly --standalone`, antes de subir o Nginx) e garanta a renovação automática.
+
 Depois, crie o usuário do admin uma única vez: `docker exec -it portfolio_web python manage.py createsuperuser`.
 
 > O banco SQLite (`db.sqlite3`) e a pasta `media/` ficam na VM e não vão para o git. Faça backup deles.
+>
+> **Não edite arquivos versionados direto na VM.** Qualquer mudança local faz o `git pull` do deploy falhar. Mude no repositório e faça push.
 
 ---
 

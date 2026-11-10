@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Dev workflow (Docker-first)
 
-- Run locally with `docker compose up --build` (services `web` = gunicorn, `nginx` on :80). Run all Django commands inside the container: `docker exec portfolio_web python manage.py <cmd>`.
+- `docker-compose.yml` + `nginx/nginx.conf` are the **production** config (HTTPS via host `/etc/letsencrypt`, web only `expose`d). Run locally with `docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build` (HTTP-only `nginx.dev.conf`, web also on :8000). Never put prod-only changes on the VM by hand — a dirty tree there breaks the deploy's `git pull`. Run all Django commands inside the container: `docker exec portfolio_web python manage.py <cmd>`.
 - gunicorn has no `--reload`: after Python/template changes run `docker compose restart web`.
 - The repo is bind-mounted into `/app`, so `db.sqlite3` on the host is the live DB.
 - No tests exist. Verify changes with `/verify`.

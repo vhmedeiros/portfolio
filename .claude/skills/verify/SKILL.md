@@ -5,7 +5,7 @@ description: Smoke-test the Django portfolio after changes (system check, pendin
 
 The repo has no tests, so verify changes against the running Docker stack.
 
-1. Make sure the stack is up: `docker compose ps`. If `portfolio_web` isn't running, start it with `docker compose up --build -d`. Otherwise run `docker compose restart web` so code changes are picked up, because gunicorn doesn't reload.
+1. Make sure the stack is up: `docker compose ps`. If `portfolio_web` isn't running, start it with `docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build -d`. Never use the production-only file locally, because it requires TLS certificates. Otherwise run `docker compose restart web` so code changes are picked up, because gunicorn doesn't reload.
 2. `docker exec portfolio_web python manage.py check`
 3. `docker exec portfolio_web python manage.py makemigrations --check --dry-run`. If it fails, models changed without a migration. Create one with `docker exec portfolio_web python manage.py makemigrations`, then run `migrate`.
 4. Check the pages through nginx. Each should return 200:

@@ -1,0 +1,11 @@
+# Ajustes para rodar localmente, por cima do docker-compose.yml (produção):
+#   docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+services:
+  web:
+    ports:
+      - "8000:8000"
+
+  nginx:
+    volumes:
+      # substitui o nginx.conf de produção (HTTPS) pela versão só HTTP
+      - ./nginx/nginx.dev.conf:/etc/nginx/conf.d/default.conf
