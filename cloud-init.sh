@@ -1,14 +1,21 @@
 #!/bin/bash
+# Script de inicialização da VM (Oracle Cloud). Nunca coloque senhas ou chaves aqui:
+# este arquivo é público no GitHub.
 
-# ─── Usuário victor com senha ───────────────────────────────────────────────
+# ─── Usuário victor (acesso só por chave SSH) ───────────────────────────────
 useradd -m -s /bin/bash victor
-echo "victor:Med@2021" | chpasswd
 usermod -aG sudo victor
 
-# Permite login por senha via SSH
-sed -i 's/^PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
-sed -i 's/^#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
-systemctl restart ssh
+# Reaproveita a chave pública cadastrada na criação da instância (usuário ubuntu)
+mkdir -p /home/victor/.ssh
+cp /home/ubuntu/.ssh/authorized_keys /home/victor/.ssh/authorized_keys
+chown -R victor:victor /home/victor/.ssh
+chmod 700 /home/victor/.ssh
+chmod 600 /home/victor/.ssh/authorized_keys
+
+# A senha do victor (usada pelo sudo) é definida manualmente após o primeiro login,
+# entrando como ubuntu:  sudo passwd victor
+# O login SSH por senha continua desabilitado (padrão da imagem).
 
 # ─── Atualizações básicas ────────────────────────────────────────────────────
 apt-get update -y
